@@ -13,14 +13,51 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8a80 50%, #ffb6c1 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10%),
+                radial-gradient(circle, rgba(255,255,255,0.2) 10%, transparent 10%);
+            background-size: 50px 50px, 30px 30px;
+            background-position: 0 0, 25px 25px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .sindico-character {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         header {
@@ -49,10 +86,10 @@
         }
 
         .card h2 {
-            color: #1e3c72;
+            color: #d63384;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 2px solid #ffb6c1;
         }
 
         .form-group {
@@ -81,7 +118,7 @@
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #2a5298;
+            border-color: #ff6b9d;
         }
 
         .form-row {
@@ -107,13 +144,13 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #d63384 100%);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.4);
+            box-shadow: 0 5px 15px rgba(214, 51, 132, 0.4);
         }
 
         .btn-danger {
@@ -147,9 +184,9 @@
 
         .filter-btn {
             padding: 8px 20px;
-            border: 2px solid #1e3c72;
+            border: 2px solid #d63384;
             background: white;
-            color: #1e3c72;
+            color: #d63384;
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s;
@@ -157,7 +194,7 @@
 
         .filter-btn:hover,
         .filter-btn.active {
-            background: #1e3c72;
+            background: #d63384;
             color: white;
         }
 
@@ -174,7 +211,7 @@
             align-items: center;
             gap: 15px;
             transition: all 0.3s;
-            border-left: 4px solid #1e3c72;
+            border-left: 4px solid #d63384;
         }
 
         .task-item:hover {
@@ -271,7 +308,7 @@
 
         .stat-card h3 {
             font-size: 2rem;
-            color: #1e3c72;
+            color: #d63384;
         }
 
         .stat-card p {
@@ -301,6 +338,43 @@
 <body>
     <div class="container">
         <header>
+            <div class="sindico-character">
+                <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Corpo -->
+                    <rect x="35" y="55" width="50" height="45" rx="5" fill="#2c3e50"/>
+                    <!-- Gravata -->
+                    <polygon points="60,55 55,70 60,85 65,70" fill="#e74c3c"/>
+                    <!-- Camisa -->
+                    <rect x="45" y="55" width="30" height="15" fill="white"/>
+                    <!-- Cabeca -->
+                    <circle cx="60" cy="35" r="25" fill="#fdbf6f"/>
+                    <!-- Cabelo -->
+                    <ellipse cx="60" cy="18" rx="22" ry="10" fill="#4a4a4a"/>
+                    <!-- Olhos -->
+                    <circle cx="52" cy="32" r="4" fill="white"/>
+                    <circle cx="68" cy="32" r="4" fill="white"/>
+                    <circle cx="53" cy="33" r="2" fill="#2c3e50"/>
+                    <circle cx="69" cy="33" r="2" fill="#2c3e50"/>
+                    <!-- Oculos -->
+                    <rect x="46" y="28" width="12" height="10" rx="2" fill="none" stroke="#2c3e50" stroke-width="2"/>
+                    <rect x="62" y="28" width="12" height="10" rx="2" fill="none" stroke="#2c3e50" stroke-width="2"/>
+                    <line x1="58" y1="33" x2="62" y2="33" stroke="#2c3e50" stroke-width="2"/>
+                    <!-- Sorriso -->
+                    <path d="M 52 42 Q 60 50 68 42" fill="none" stroke="#2c3e50" stroke-width="2" stroke-linecap="round"/>
+                    <!-- Bigode -->
+                    <path d="M 50 40 Q 60 44 70 40" fill="#4a4a4a"/>
+                    <!-- Prancheta -->
+                    <rect x="75" y="65" width="20" height="28" rx="2" fill="#c9a86c"/>
+                    <rect x="78" y="70" width="14" height="2" fill="#fff"/>
+                    <rect x="78" y="75" width="14" height="2" fill="#fff"/>
+                    <rect x="78" y="80" width="10" height="2" fill="#fff"/>
+                    <rect x="80" y="62" width="10" height="5" rx="1" fill="#8b7355"/>
+                    <!-- Chaves -->
+                    <circle cx="30" cy="75" r="8" fill="#f1c40f" stroke="#d4a800" stroke-width="2"/>
+                    <rect x="28" y="83" width="4" height="12" fill="#f1c40f"/>
+                    <rect x="26" y="90" width="8" height="3" fill="#f1c40f"/>
+                </svg>
+            </div>
             <h1>Agenda do Sindico</h1>
             <p>Gerencie todas as tarefas do condominio em um so lugar</p>
         </header>
