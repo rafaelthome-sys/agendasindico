@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda do Síndico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.4);
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .btn-success:hover {
+            background: #219a52;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border: 2px solid #1e3c72;
+            background: white;
+            color: #1e3c72;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #1e3c72;
+            color: white;
+        }
+
+        .task-list {
+            list-style: none;
+        }
+
+        .task-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+            border-left: 4px solid #1e3c72;
+        }
+
+        .task-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            border-left-color: #27ae60;
+        }
+
+        .task-item.completed .task-title {
+            text-decoration: line-through;
+        }
+
+        .task-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: #27ae60;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #666;
+            flex-wrap: wrap;
+        }
+
+        .task-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .priority-alta {
+            border-left-color: #e74c3c !important;
+        }
+
+        .priority-media {
+            border-left-color: #f39c12 !important;
+        }
+
+        .priority-baixa {
+            border-left-color: #27ae60 !important;
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-manutencao { background: #3498db; color: white; }
+        .badge-financeiro { background: #27ae60; color: white; }
+        .badge-reuniao { background: #9b59b6; color: white; }
+        .badge-documentacao { background: #e67e22; color: white; }
+        .badge-emergencia { background: #e74c3c; color: white; }
+        .badge-outro { background: #95a5a6; color: white; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            color: #1e3c72;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Agenda do Sindico</h1>
+            <p>Gerencie todas as tarefas do condominio em um so lugar</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3 id="totalTasks">0</h3>
+                <p>Total de Tarefas</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="pendingTasks">0</h3>
+                <p>Pendentes</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="completedTasks">0</h3>
+                <p>Concluidas</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="urgentTasks">0</h3>
+                <p>Urgentes</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Nova Tarefa</h2>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="taskTitle">Titulo da Tarefa</label>
+                    <input type="text" id="taskTitle" placeholder="Ex: Verificar vazamento no bloco A" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="taskDescription">Descricao</label>
+                    <textarea id="taskDescription" rows="3" placeholder="Detalhes da tarefa..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskCategory">Categoria</label>
+                        <select id="taskCategory">
+                            <option value="manutencao">Manutencao</option>
+                            <option value="financeiro">Financeiro</option>
+                            <option value="reuniao">Reuniao</option>
+                            <option value="documentacao">Documentacao</option>
+                            <option value="emergencia">Emergencia</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskPriority">Prioridade</label>
+                        <select id="taskPriority">
+                            <option value="baixa">Baixa</option>
+                            <option value="media">Media</option>
+                            <option value="alta">Alta</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDate">Data Limite</label>
+                        <input type="date" id="taskDate">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Adicionar Tarefa</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Minhas Tarefas</h2>
+
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="pending">Pendentes</button>
+                <button class="filter-btn" data-filter="completed">Concluidas</button>
+                <button class="filter-btn" data-filter="manutencao">Manutencao</button>
+                <button class="filter-btn" data-filter="financeiro">Financeiro</button>
+                <button class="filter-btn" data-filter="reuniao">Reuniao</button>
+            </div>
+
+            <ul class="task-list" id="taskList">
+                <!-- Tasks will be rendered here -->
+            </ul>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+                <p>Nenhuma tarefa encontrada</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Task Manager
+        class TaskManager {
+            constructor() {
+                this.tasks = JSON.parse(localStorage.getItem('sindicoTasks')) || [];
+                this.currentFilter = 'all';
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.render();
+                this.updateStats();
+            }
+
+            bindEvents() {
+                document.getElementById('taskForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addTask();
+                });
+
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentFilter = e.target.dataset.filter;
+                        this.render();
+                    });
+                });
+            }
+
+            addTask() {
+                const title = document.getElementById('taskTitle').value.trim();
+                const description = document.getElementById('taskDescription').value.trim();
+                const category = document.getElementById('taskCategory').value;
+                const priority = document.getElementById('taskPriority').value;
+                const date = document.getElementById('taskDate').value;
+
+                if (!title) return;
+
+                const task = {
+                    id: Date.now(),
+                    title,
+                    description,
+                    category,
+                    priority,
+                    date,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                };
+
+                this.tasks.unshift(task);
+                this.save();
+                this.render();
+                this.updateStats();
+                this.clearForm();
+            }
+
+            toggleTask(id) {
+                const task = this.tasks.find(t => t.id === id);
+                if (task) {
+                    task.completed = !task.completed;
+                    this.save();
+                    this.render();
+                    this.updateStats();
+                }
+            }
+
+            deleteTask(id) {
+                if (confirm('Deseja realmente excluir esta tarefa?')) {
+                    this.tasks = this.tasks.filter(t => t.id !== id);
+                    this.save();
+                    this.render();
+                    this.updateStats();
+                }
+            }
+
+            save() {
+                localStorage.setItem('sindicoTasks', JSON.stringify(this.tasks));
+            }
+
+            clearForm() {
+                document.getElementById('taskForm').reset();
+            }
+
+            getFilteredTasks() {
+                let filtered = this.tasks;
+
+                switch (this.currentFilter) {
+                    case 'pending':
+                        filtered = this.tasks.filter(t => !t.completed);
+                        break;
+                    case 'completed':
+                        filtered = this.tasks.filter(t => t.completed);
+                        break;
+                    case 'manutencao':
+                    case 'financeiro':
+                    case 'reuniao':
+                        filtered = this.tasks.filter(t => t.category === this.currentFilter);
+                        break;
+                }
+
+                return filtered;
+            }
+
+            formatDate(dateString) {
+                if (!dateString) return 'Sem data';
+                const date = new Date(dateString + 'T00:00:00');
+                return date.toLocaleDateString('pt-BR');
+            }
+
+            getCategoryLabel(category) {
+                const labels = {
+                    manutencao: 'Manutencao',
+                    financeiro: 'Financeiro',
+                    reuniao: 'Reuniao',
+                    documentacao: 'Documentacao',
+                    emergencia: 'Emergencia',
+                    outro: 'Outro'
+                };
+                return labels[category] || category;
+            }
+
+            getPriorityLabel(priority) {
+                const labels = {
+                    baixa: 'Baixa',
+                    media: 'Media',
+                    alta: 'Alta'
+                };
+                return labels[priority] || priority;
+            }
+
+            render() {
+                const taskList = document.getElementById('taskList');
+                const emptyState = document.getElementById('emptyState');
+                const filteredTasks = this.getFilteredTasks();
+
+                if (filteredTasks.length === 0) {
+                    taskList.innerHTML = '';
+                    emptyState.style.display = 'block';
+                    return;
+                }
+
+                emptyState.style.display = 'none';
+                taskList.innerHTML = filteredTasks.map(task => `
+                    <li class="task-item ${task.completed ? 'completed' : ''} priority-${task.priority}">
+                        <input
+                            type="checkbox"
+                            class="task-checkbox"
+                            ${task.completed ? 'checked' : ''}
+                            onchange="taskManager.toggleTask(${task.id})"
+                        >
+                        <div class="task-content">
+                            <div class="task-title">${this.escapeHtml(task.title)}</div>
+                            ${task.description ? `<p style="color: #666; font-size: 0.9rem; margin: 5px 0;">${this.escapeHtml(task.description)}</p>` : ''}
+                            <div class="task-meta">
+                                <span class="badge badge-${task.category}">${this.getCategoryLabel(task.category)}</span>
+                                <span>Prioridade: ${this.getPriorityLabel(task.priority)}</span>
+                                <span>Data: ${this.formatDate(task.date)}</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn btn-danger" onclick="taskManager.deleteTask(${task.id})">Excluir</button>
+                        </div>
+                    </li>
+                `).join('');
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            updateStats() {
+                document.getElementById('totalTasks').textContent = this.tasks.length;
+                document.getElementById('pendingTasks').textContent = this.tasks.filter(t => !t.completed).length;
+                document.getElementById('completedTasks').textContent = this.tasks.filter(t => t.completed).length;
+                document.getElementById('urgentTasks').textContent = this.tasks.filter(t => t.priority === 'alta' && !t.completed).length;
+            }
+        }
+
+        // Initialize
+        const taskManager = new TaskManager();
+    </script>
+</body>
+</html>
